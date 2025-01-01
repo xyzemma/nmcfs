@@ -1,7 +1,31 @@
-from lark import Tree, Token
+from lark import Lark, Tree, Token
+output_dir = "outdir"
+# Updated grammar
+grammar = """
+    start: function+
+    function: "fn" CNAME "{" statement* "}"
+    statement: var_declaration | while_loop | add
+    var_declaration: "int" CNAME "=" NUMBER
+    while_loop: "while" condition "{" statement* "}"
+    add: CNAME "+=" NUMBER
+    condition: CNAME "<=" NUMBER
+    %import common.CNAME
+    %import common.NUMBER
+    %import common.WS
+    %ignore WS
+"""
 
-# Global state
-output_dir = "./output"
+parser = Lark(grammar)
+
+# Source code
+source_code = """
+fn main {
+    int count = 0
+    count += 1
+}
+"""
+
+# Traverse the tree
 isfunctiondecl = False
 isvardecl = False
 funcfile = None
@@ -46,3 +70,7 @@ def traverse_tree(node):
                     print("Error: Function file not set.")
                 isvardecl = False  # Done with this variable
                 current_var = None  # Reset for the next variable
+# Parse and traverse
+tree = parser.parse(source_code)
+
+traverse_tree(tree)
