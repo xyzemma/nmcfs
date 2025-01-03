@@ -1,2 +1,2 @@
 # nmcfs
-Nova Minecraft Function Script
+## Nova Minecraft Function Script
