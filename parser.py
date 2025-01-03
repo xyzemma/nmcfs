@@ -24,7 +24,6 @@ fn main {
     count += 1
 }
 """
-
 # Traverse the tree
 isfunctiondecl = False
 isvardecl = False
