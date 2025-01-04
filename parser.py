@@ -4,12 +4,12 @@ output_dir = "outdir"
 grammar = """
     start: function+
     function: "fn" CNAME "{" statement* "}"
-    statement: var_declaration | while_loop | add | functioncall
+    statement: var_declaration | while_loop | varintadd | functioncall
     functioncall: CNAME"(" argument* ")"
     argument: CNAME
     var_declaration: "int" CNAME "=" NUMBER
     while_loop: "while" condition "{" statement* "}"
-    add: CNAME "+=" NUMBER
+    varintadd: CNAME "+=" NUMBER
     condition: CNAME "<=" NUMBER
     %import common.CNAME
     %import common.NUMBER
@@ -31,7 +31,9 @@ fn main {
 isfunctiondecl = False
 isvardecl = False
 funcfile = None
+isvarintadd = False
 current_var = None
+varintaddoperands = None
 funcnames = []
 varstore = {}
 
@@ -45,6 +47,8 @@ def traverse_tree(node):
         if node.data == "var_declaration":
             isvardecl = True
             current_var = {}  # Start a new variable
+        if node.data == "varintadd":
+            isvarintadd = True
         for child in node.children:
             traverse_tree(child)
 
@@ -75,6 +79,22 @@ def traverse_tree(node):
                 varstore[current_var.get("name")] = currentvar.get("value")
                 isvardecl = False  # Done with this variable
                 current_var = None  # Reset for the next variable
+        if isvarintadd:
+            if node.type == "CNAME":
+                varintaddoperands["var"] = node.value
+            elif node.type == "NUMBER":
+                current_var["int"] = node.value
+            if "var" in varintaddoperands and "int" in varintaddoperands:
+                if funcfile:
+                    with open(funcfile, "a") as f:
+                        cmdwrite = "function defaults:varintadd {x:" + varintaddoperands.get("var") + ",y:" + varintaddoperands.get("int") + "}"
+                        f.write("function defaults:varintadd {\n")
+                else:
+                    print("Error: Function file not set.")
+                varstore[current_var.get("name")] = currentvar.get("value")
+                isvardecl = False  # Done with this variable
+                current_var = None  # Reset for the next variable
+
 # Parse and traverse
 tree = parser.parse(source_code)
 
