@@ -4,7 +4,9 @@ output_dir = "outdir"
 grammar = """
     start: function+
     function: "fn" CNAME "{" statement* "}"
-    statement: var_declaration | while_loop | add
+    statement: var_declaration | while_loop | add | functioncall
+    functioncall: CNAME"(" argument* ")"
+    argument: CNAME
     var_declaration: "int" CNAME "=" NUMBER
     while_loop: "while" condition "{" statement* "}"
     add: CNAME "+=" NUMBER
@@ -22,13 +24,16 @@ source_code = """
 fn main {
     int count = 0
     count += 1
+    main(count)
 }
 """
 # Traverse the tree
 isfunctiondecl = False
 isvardecl = False
 funcfile = None
-current_var = None  # To hold the variable being processed
+current_var = None
+funcnames = []
+varstore = {}
 
 def traverse_tree(node):
     global isfunctiondecl, isvardecl, funcfile, current_var
@@ -67,6 +72,7 @@ def traverse_tree(node):
                         f.write(f"data modify storage variables {current_var['name']} set value {current_var['value']}\n")
                 else:
                     print("Error: Function file not set.")
+                varstore[current_var.get("name")] = currentvar.get("value")
                 isvardecl = False  # Done with this variable
                 current_var = None  # Reset for the next variable
 # Parse and traverse
