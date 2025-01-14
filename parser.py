@@ -96,6 +96,6 @@ def traverse_tree(node):
                 current_var = None  # Reset for the next variable
 
 # Parse and traverse
-tree = parser.parse(source_code)
-
-traverse_tree(tree)
+def parsefile(source_code):
+    tree = parser.parse(source_code)
+    traverse_tree(tree)
