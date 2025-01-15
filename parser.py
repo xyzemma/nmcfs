@@ -37,11 +37,17 @@ varintaddoperands = None
 funcnames = []
 varstore = {}
 
+def init():
+    print("test")
+
+
 def traverse_tree(node):
     global isfunctiondecl, isvardecl, funcfile, current_var
 
     if isinstance(node, Tree):
         print(f"Tree: {node.data}")
+        if node.data == "start":
+            init()
         if node.data == "function":
             isfunctiondecl = True
         if node.data == "var_declaration":
@@ -99,3 +105,4 @@ def traverse_tree(node):
 def parsefile(source_code):
     tree = parser.parse(source_code)
     traverse_tree(tree)
+    

@@ -72,8 +72,8 @@ pathbutton2 = ttk.Button(frame1,text="Select",command=selectdir)
 pathbutton2.place(x=230,y=300)
 
 # License
-licensetext = ttk.Label(frame1, text="nmcfs © MIT License - 2025 Rosafy",foreground="blue", cursor="hand2", font=("Helvetica",6),wraplength=200, justify="center")
-licensetext.place(x=50, y=470)
+licensetext = ttk.Label(frame1, text="nmcfs © MIT License - 2025 Rosafy",foreground="blue", cursor="hand2", font=("Helvetica",6),wraplength=100, justify="center")
+licensetext.place(x=100, y=470)
 licensetext.bind("<Button-1>", lambda e: urlopen("https://github.com/rosafy/nmcfs/blob/main/LICENSE"))
 ToolTip(licensetext, msg="Read License")
 
