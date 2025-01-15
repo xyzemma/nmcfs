@@ -5,5 +5,4 @@
 # nmcfs
 ## Nova Minecraft Function Script
 Work in progress 
-## License
-[nmcfs © Rosafy Ethical Adaptive License (REAL) - 2025 Rosafy](https://github.com/rosafy/nmcfs/blob/main/LICENSE)
+
