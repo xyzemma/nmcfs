@@ -1,18 +1,21 @@
-nmcfs © Rosafy Ethical Adaptive License (REAL) - 2025 Rosafy
+MIT License
 
-Different Conditions apply to different use cases.
+Copyright (c) 2025 rosafy
 
-For personal use, non-commercial (defined as any use which does not have the primary goal of generating monetary or otherwise material profit) use, and commercial use by worker cooperatives (defined as any firm which is collectively owned by all its workers, and in which every worker has the right to democratic participation), the following conditions apply:
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
-Permission is hereby granted, free of charge, to any person being part of the category defined above obtaining a copy of this software and associated documentation files (the “Software”), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software. 
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
 
-For commercial usage (defined as any use with the primary goal of generating monetary or otherwise material profit) by privately owned firms (defined as any firm which is controlled through private property, utilizing the following definition: https://en.wiktionary.org/w/index.php?title=private_property&oldid=83161174#English) and non-worker controlled state owned firms, the following conditions apply:
-
-Rights to internal usage and modification to this project are granted free of charge to any member of the above category obtaining a copy thereof. However, for publishing, distributing, sublicensing, and/or selling copies of the project explicit written permission must be obtained from the copyright holder through the following E-Mail: xxrosafy@gmail.com. Written permission obtained through other means are valid if the entity whom it is received from can be clearly identified as the copyright holder. 
-
-For military usage (defined as any usage with the primary aim of advancing military goals), surveillance usage (defined as systematic observation of places and people by visual, aural, electronic, photographic or other means), or usage by any entity which has been condemned by any of the following organizations: PublicEye, Amnesty International, BDS (Boycott, Divestment and Sanctions), Human Rights Watch, Human Rights Campaign, SPLC (Southern Poverty Law Center) in the last two years, the following conditions apply:
-
-Any entity which is part of the above group does not have the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of this project, unless having obtained written permission by the copyright holder, who can be contacted at xxrosafy@gmail.com, which will only be granted under exceptional circumstances.
-
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES, OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT, OR OTHERWISE, ARISING FROM, OUT OF, OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
