@@ -4,10 +4,10 @@ output_dir = "outdir"
 grammar = """
     start: function+
     function: "fn" CNAME "{" statement* "}"
-    statement: var_declaration | while_loop | varintadd | functioncall
+    statement: int_declaration | while_loop | varintadd | functioncall
     functioncall: CNAME"(" argument* ")"
     argument: CNAME
-    var_declaration: "int" CNAME "=" NUMBER
+    int_declaration: "int" CNAME "=" NUMBER
     while_loop: "while" condition "{" statement* "}"
     varintadd: CNAME "+=" NUMBER
     condition: CNAME "<=" NUMBER
@@ -29,7 +29,7 @@ fn main {
 """
 # Traverse the tree
 isfunctiondecl = False
-isvardecl = False
+isintdecl = False
 funcfile = None
 isvarintadd = False
 current_var = None
@@ -44,8 +44,8 @@ def traverse_tree(node):
         print(f"Tree: {node.data}")
         if node.data == "function":
             isfunctiondecl = True
-        if node.data == "var_declaration":
-            isvardecl = True
+        if node.data == "int_declaration":
+            isintdecl = True
             current_var = {}  # Start a new variable
         if node.data == "varintadd":
             isvarintadd = True
@@ -63,7 +63,7 @@ def traverse_tree(node):
                 f.write(f"# Function {funcname}\n")
             isfunctiondecl = False
 
-        if isvardecl:
+        if isintdecl:
             if node.type == "CNAME":
                 current_var["name"] = node.value
             elif node.type == "NUMBER":
