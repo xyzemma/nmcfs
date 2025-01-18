@@ -3,13 +3,15 @@ output_dir = "outdir"
 grammar = """
     start: function+
     function: "fn" CNAME "{" statement* "}"
-    statement: int_declaration | while_loop | intvar_int_add | functioncall
+    statement: int_declaration | while_loop | intvar_int_add | functioncall | execute_as
     functioncall: CNAME"(" argument* ")"
     argument: CNAME
     int_declaration: "int" CNAME "=" NUMBER
     while_loop: "while" condition "{" statement* "}"
     intvar_int_add: CNAME "+=" NUMBER
     condition: CNAME "<=" NUMBER
+    execute_as: "execute as" entity
+    entity: CNAME
     %import common.CNAME
     %import common.NUMBER
     %import common.WS
