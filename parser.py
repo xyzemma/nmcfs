@@ -5,13 +5,20 @@ grammar = """
     function: "fn" CNAME "{" statement* "}"
     execute_as: "execute as" entity "{" statement* "}"    
     entity: CNAME
-    statement: int_declaration | while_loop | intvar_int_add | functioncall | execute_as 
+    statement: var_declaration | while_loop | var_operation | functioncall | execute_as 
     functioncall: CNAME"(" argument* ")"  -> func_call
             | CNAME"(" ")" -> func_call
     argument: CNAME
-    int_declaration: "int" CNAME "=" NUMBER
+    var_declaration: type CNAME "=" NUMBER
+    type: CNAME
     while_loop: "while" condition "{" statement* "}"
-    intvar_int_add: CNAME "+=" NUMBER
+    var_operation: operand operator operand
+    operand: NUMBER | CNAME
+    operator: add | subtract | divide | multiply
+    add: "+="
+    subtract: "-="
+    divide: "/="
+    multiply: "*="
     condition: CNAME "<=" NUMBER
 
     %import common.CNAME
@@ -35,11 +42,11 @@ fn main {
 """
 # Traverse the tree
 isfunctiondecl = False
-isintdecl = False
+isvardecl = False
 funcfile = None
-isintvar_int_add = False
+isoperation = False
 current_var = None
-intvar_int_addoperands = None
+operands = None
 funcnames = []
 builtinfuncs = ["print", "summon"]
 varstore = {}
