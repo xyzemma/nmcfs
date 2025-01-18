@@ -38,7 +38,7 @@ intvar_int_addoperands = None
 funcnames = []
 varstore = {}
 
-def traverse_tree(node):
+"""def traverse_tree(node):
     global isfunctiondecl, isvardecl, funcfile, current_var
 
     if isinstance(node, Tree):
@@ -95,7 +95,7 @@ def traverse_tree(node):
                 varstore[current_var.get("name")] = currentvar.get("value")
                 isvardecl = False  # Done with this variable
                 current_var = None  # Reset for the next variable
-
+"""
 # Parse and traverse
 def parsefile(source_code):
     tree = parser.parse(source_code)
