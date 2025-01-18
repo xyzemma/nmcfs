@@ -4,12 +4,12 @@ output_dir = "outdir"
 grammar = """
     start: function+
     function: "fn" CNAME "{" statement* "}"
-    statement: int_declaration | while_loop | varintadd | functioncall
+    statement: int_declaration | while_loop | intvar_int_add | functioncall
     functioncall: CNAME"(" argument* ")"
     argument: CNAME
     int_declaration: "int" CNAME "=" NUMBER
     while_loop: "while" condition "{" statement* "}"
-    varintadd: CNAME "+=" NUMBER
+    intvar_int_add: CNAME "+=" NUMBER
     condition: CNAME "<=" NUMBER
     %import common.CNAME
     %import common.NUMBER
@@ -31,9 +31,9 @@ fn main {
 isfunctiondecl = False
 isintdecl = False
 funcfile = None
-isvarintadd = False
+isintvar_int_add = False
 current_var = None
-varintaddoperands = None
+intvar_int_addoperands = None
 funcnames = []
 varstore = {}
 
@@ -47,8 +47,8 @@ def traverse_tree(node):
         if node.data == "int_declaration":
             isintdecl = True
             current_var = {}  # Start a new variable
-        if node.data == "varintadd":
-            isvarintadd = True
+        if node.data == "intvar_int_add":
+            isintvar_int_add = True
         for child in node.children:
             traverse_tree(child)
 
@@ -79,16 +79,16 @@ def traverse_tree(node):
                 varstore[current_var.get("name")] = currentvar.get("value")
                 isvardecl = False  # Done with this variable
                 current_var = None  # Reset for the next variable
-        if isvarintadd:
+        if isintvar_int_add:
             if node.type == "CNAME":
-                varintaddoperands["var"] = node.value
+                intvar_int_addoperands["var"] = node.value
             elif node.type == "NUMBER":
                 current_var["int"] = node.value
-            if "var" in varintaddoperands and "int" in varintaddoperands:
+            if "var" in intvar_int_addoperands and "int" in intvar_int_addoperands:
                 if funcfile:
                     with open(funcfile, "a") as f:
-                        cmdwrite = "function defaults:varintadd {x:" + varintaddoperands.get("var") + ",y:" + varintaddoperands.get("int") + "}"
-                        f.write("function defaults:varintadd {\n")
+                        cmdwrite = "function defaults:intvar_int_add {x:" + intvar_int_addoperands.get("var") + ",y:" + intvar_int_addoperands.get("int") + "}"
+                        f.write("function defaults:intvar_int_add {\n")
                 else:
                     print("Error: Function file not set.")
                 varstore[current_var.get("name")] = currentvar.get("value")
