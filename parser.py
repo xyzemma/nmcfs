@@ -3,15 +3,17 @@ output_dir = "outdir"
 grammar = """
     start: function+
     function: "fn" CNAME "{" statement* "}"
-    statement: int_declaration | while_loop | intvar_int_add | functioncall | execute_as
-    functioncall: CNAME"(" argument* ")"
+    execute_as: "execute as" entity "{" statement* "}"    
+    entity: CNAME
+    statement: int_declaration | while_loop | intvar_int_add | functioncall | execute_as 
+    functioncall: CNAME"(" argument* ")"  -> func_call
+            | CNAME"(" ")" -> func_call
     argument: CNAME
     int_declaration: "int" CNAME "=" NUMBER
     while_loop: "while" condition "{" statement* "}"
     intvar_int_add: CNAME "+=" NUMBER
     condition: CNAME "<=" NUMBER
-    execute_as: "execute as" entity
-    entity: CNAME
+
     %import common.CNAME
     %import common.NUMBER
     %import common.WS
@@ -26,6 +28,9 @@ fn main {
     int count = 0
     count += 1
     main(count)
+    execute as someone {
+        print(something) 
+    }
 }
 """
 # Traverse the tree
@@ -36,6 +41,7 @@ isintvar_int_add = False
 current_var = None
 intvar_int_addoperands = None
 funcnames = []
+builtinfuncs = ["print", "summon"]
 varstore = {}
 
 """def traverse_tree(node):
@@ -96,7 +102,16 @@ varstore = {}
                 isvardecl = False  # Done with this variable
                 current_var = None  # Reset for the next variable
 """
+def tokenize(node):
+    if isinstance(node, Tree):
+        print(f"Tree: {node.data}")
+        for child in node.children:
+            tokenize(child)
+    elif isinstance(node,Token):
+        print(f"Token: {node.type} -> {node.value}")
 # Parse and traverse
 def parsefile(source_code):
     tree = parser.parse(source_code)
     traverse_tree(tree)
+tree = parser.parse(source_code)
+tokenize(tree)
