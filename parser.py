@@ -1,6 +1,5 @@
 from lark import Lark, Tree, Token
 output_dir = "outdir"
-# Updated grammar
 grammar = """
     start: function+
     function: "fn" CNAME "{" statement* "}"
