@@ -118,10 +118,10 @@ ToolTip(licensetext, msg="Read License")
 buttons = ttk.Frame(frame1)
 buttons.grid(row=8, column=0, columnspan=3,pady=scale((15,0)))
 quitbutton = ttk.Button(buttons, text="Quit", command=root.destroy,width=scale(7))
-quitbutton.grid(row=0, column=1, sticky="sw",padx=scale((2.5,0)))
+quitbutton.grid(row=0, column=1, sticky="sw",padx=scale((1,0)))
 
 compilebutton = ttk.Button(buttons, text="Compile", command=compile, width=scale(7))
-compilebutton.grid(row=0, column=0, sticky="se",padx=scale((0,2.5)))
+compilebutton.grid(row=0, column=0, sticky="se",padx=scale((0,1)))
 
 # Run
 root.mainloop()
