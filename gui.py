@@ -8,19 +8,18 @@ import webbrowser
 from tktooltip import ToolTip
 import parser
 
-#ORIGINAL_DPI = 240.23645320197045   # This is the DPI of the computer you're making/testing the script on.
+ORIGINAL_DPI = 146.89156626506025
 
-#def get_dpi():
-#    screen = Tk()
-#    current_dpi = screen.winfo_fpixels('1i')
-#    screen.destroy()
-#    return current_dpi
+def get_dpi():
+    screen = Tk()
+    current_dpi = screen.winfo_fpixels('1i')
+    screen.destroy()
+    return current_dpi
 
-#SCALE = get_dpi()/ORIGINAL_DPI    # Now this is the appropriate scale factor you were mentioning.
+SCALE = get_dpi()/ORIGINAL_DPI 
 
-# Now every time you use a dimension in pixels, replace it with scaled(*pixel dimension*)
-#def scaled(original_width):
-#    return round(original_width * SCALE)
+def scaled(original_width):
+    return round(original_width * SCALE)
 
 #if __name__ == '__main__':
 #    root = Tk()
@@ -51,7 +50,7 @@ root = Tk()
 root.title("nmcfs Compiler")
 root.resizable(width=False, height=False)
 sv_ttk.set_theme("light")
-frame1 = ttk.Frame(root, width=300, height=500)
+frame1 = ttk.Frame(root, width=scaled(300), height=scaled(500))
 im = Image.open('nmcfs_templogo.png')
 photo = ImageTk.PhotoImage(im)
 root.wm_iconphoto(True, photo)
@@ -61,24 +60,24 @@ frame1.update()
 
 # Logo
 logoimg = Image.open("nmcfs_templogo.png")
-logoimg = logoimg.resize((100,100))
+logoimg = logoimg.resize((scaled(100),scaled(100)))
 logoimg = ImageTk.PhotoImage(logoimg)
 logo = ttk.Label(frame1, image=logoimg)
-logo.place(x=frame1.winfo_width()/2-50,y=5)
+logo.place(x=frame1.winfo_width()/2-50,y=scaled(5))
 
 # Main UI Elements
 l = ttk.Label(frame1,text="nmcfs Compiler",font=("Helvetica",15,"bold"))
-l.place(x=frame1.winfo_width()/2, y=120, anchor="center")
+l.place(x=frame1.winfo_width()/2, y=scaled(120), anchor="center")
 quitbutton = ttk.Button(frame1, text="Quit", command=root.destroy, width=15)
-quitbutton.place(x=160,y=420)
+quitbutton.place(x=scaled(160),y=scaled(420))
 compilebutton = ttk.Button(frame1, text="Compile", command=compile, width=15)
-compilebutton.place(x=10,y=420)
+compilebutton.place(x=scaled(10),y=scaled(420))
 
 # Input Path
 pathlabel1 = ttk.Label(frame1,text="File to compile:",font=("Helvetica",7,"bold"))
-pathlabel1.place(x=10,y=200)
-pathinput = ttk.Entry(frame1, width=19)
-pathinput.place(x=10,y=220,height=30)
+pathlabel1.place(x=scaled(10),y=scaled(200))
+pathinput = ttk.Entry(frame1, width=scaled(19))
+pathinput.place(x=scaled(10),y=scaled(220),height=scaled(30))
 pathbutton = ttk.Button(frame1,text="Select",command=selectfile)
 pathbutton.place(x=230,y=220)
 
