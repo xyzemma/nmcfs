@@ -5,6 +5,7 @@ from PIL import Image, ImageTk
 import sv_ttk
 import webbrowser
 from tktooltip import ToolTip
+import parser
 
 # Functions
 def selectfile():
