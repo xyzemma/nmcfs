@@ -116,7 +116,7 @@ ToolTip(licensetext, msg="Read License")
 
 # Bottom Buttons
 buttons = ttk.Frame(frame1)
-buttons.grid(row=8, column=0, columnspan=3,pady=scale((15,0)))
+buttons.grid(row=8, column=0, columnspan=3,pady=scale((15,10)),sticky="s")
 quitbutton = ttk.Button(buttons, text="Quit", command=root.destroy,width=scale(5))
 quitbutton.grid(row=0, column=1, sticky="sw",padx=scale((1,0)))
 
