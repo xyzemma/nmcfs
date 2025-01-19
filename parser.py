@@ -1,16 +1,26 @@
 from lark import Lark, Tree, Token
 output_dir = "outdir"
-# Updated grammar
 grammar = """
     start: function+
     function: "fn" CNAME "{" statement* "}"
-    statement: var_declaration | while_loop | varintadd | functioncall
-    functioncall: CNAME"(" argument* ")"
+    execute_as: "execute as" entity "{" statement* "}"    
+    entity: CNAME
+    statement: var_declaration | while_loop | var_operation | functioncall | execute_as 
+    functioncall: CNAME"(" argument* ")"  -> func_call
+            | CNAME"(" ")" -> func_call
     argument: CNAME
-    var_declaration: "int" CNAME "=" NUMBER
+    var_declaration: type CNAME "=" NUMBER
+    type: CNAME
     while_loop: "while" condition "{" statement* "}"
-    varintadd: CNAME "+=" NUMBER
+    var_operation: operand operator operand
+    operand: NUMBER | CNAME
+    operator: add | subtract | divide | multiply
+    add: "+="
+    subtract: "-="
+    divide: "/="
+    multiply: "*="
     condition: CNAME "<=" NUMBER
+
     %import common.CNAME
     %import common.NUMBER
     %import common.WS
@@ -25,23 +35,23 @@ fn main {
     int count = 0
     count += 1
     main(count)
+    execute as someone {
+        print(something) 
+    }
 }
 """
 # Traverse the tree
 isfunctiondecl = False
 isvardecl = False
 funcfile = None
-isvarintadd = False
+isoperation = False
 current_var = None
-varintaddoperands = None
+operands = None
 funcnames = []
+builtinfuncs = ["print", "summon"]
 varstore = {}
 
-def init():
-    print("test")
-
-
-def traverse_tree(node):
+"""def traverse_tree(node):
     global isfunctiondecl, isvardecl, funcfile, current_var
 
     if isinstance(node, Tree):
@@ -50,11 +60,11 @@ def traverse_tree(node):
             init()
         if node.data == "function":
             isfunctiondecl = True
-        if node.data == "var_declaration":
-            isvardecl = True
+        if node.data == "int_declaration":
+            isintdecl = True
             current_var = {}  # Start a new variable
-        if node.data == "varintadd":
-            isvarintadd = True
+        if node.data == "intvar_int_add":
+            isintvar_int_add = True
         for child in node.children:
             traverse_tree(child)
 
@@ -69,7 +79,7 @@ def traverse_tree(node):
                 f.write(f"# Function {funcname}\n")
             isfunctiondecl = False
 
-        if isvardecl:
+        if isintdecl:
             if node.type == "CNAME":
                 current_var["name"] = node.value
             elif node.type == "NUMBER":
@@ -85,24 +95,32 @@ def traverse_tree(node):
                 varstore[current_var.get("name")] = currentvar.get("value")
                 isvardecl = False  # Done with this variable
                 current_var = None  # Reset for the next variable
-        if isvarintadd:
+        if isintvar_int_add:
             if node.type == "CNAME":
-                varintaddoperands["var"] = node.value
+                intvar_int_addoperands["var"] = node.value
             elif node.type == "NUMBER":
                 current_var["int"] = node.value
-            if "var" in varintaddoperands and "int" in varintaddoperands:
+            if "var" in intvar_int_addoperands and "int" in intvar_int_addoperands:
                 if funcfile:
                     with open(funcfile, "a") as f:
-                        cmdwrite = "function defaults:varintadd {x:" + varintaddoperands.get("var") + ",y:" + varintaddoperands.get("int") + "}"
-                        f.write("function defaults:varintadd {\n")
+                        cmdwrite = "function defaults:intvar_int_add {x:" + intvar_int_addoperands.get("var") + ",y:" + intvar_int_addoperands.get("int") + "}"
+                        f.write("function defaults:intvar_int_add {\n")
                 else:
                     print("Error: Function file not set.")
                 varstore[current_var.get("name")] = currentvar.get("value")
                 isvardecl = False  # Done with this variable
                 current_var = None  # Reset for the next variable
-
+"""
+def tokenize(node):
+    if isinstance(node, Tree):
+        print(f"Tree: {node.data}")
+        for child in node.children:
+            tokenize(child)
+    elif isinstance(node,Token):
+        print(f"Token: {node.type} -> {node.value}")
 # Parse and traverse
 def parsefile(source_code):
     tree = parser.parse(source_code)
     traverse_tree(tree)
-    
+tree = parser.parse(source_code)
+tokenize(tree)
