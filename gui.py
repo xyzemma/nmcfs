@@ -85,10 +85,10 @@ pathlabel1 = ttk.Label(frame1, text="File to compile:", font=("Helvetica", scale
 pathlabel1.grid(row=2, column=0, sticky="w",pady=scale((30,0)),columnspan=2)
 
 pathinput = ttk.Entry(frame1)
-pathinput.grid(row=3, column=0, sticky="ew", columnspan=2,ipadx=scale(2000))
+pathinput.grid(row=3, column=0, sticky="ew", columnspan=2)
 
 pathbutton = ttk.Button(frame1, text="Select", command=selectfile)
-pathbutton.grid(row=3, column=2, padx=scale(5), pady=scale(0))
+pathbutton.grid(row=3, column=2, padx=scale((0,0)), pady=scale(0))
 
 # Output Path
 pathlabel2 = ttk.Label(frame1, text="Output Path:", font=("Helvetica", scale(4), "bold"))
