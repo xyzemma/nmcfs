@@ -60,7 +60,7 @@ frame1.update()
 
 # Logo
 logoimg = Image.open("nmcfs_templogo.png")
-logoimg = logoimg.resize((scaled(100),scaled(100)))
+logoimg = logoimg.resize((100,100))
 logoimg = ImageTk.PhotoImage(logoimg)
 logo = ttk.Label(frame1, image=logoimg)
 logo.place(x=frame1.winfo_width()/2-50,y=scaled(5))
