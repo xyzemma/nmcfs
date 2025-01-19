@@ -26,6 +26,16 @@ def compile():
 def urlopen(url):
     webbrowser.open_new_tab(url)
 
+# Font Scaling
+ORIGINAL_DPI = 146.89156626506025
+def get_dpi():
+    screen = Tk()
+    current_dpi = screen.winfo_fpixels('1i')
+    screen.destroy()
+    return current_dpi
+SCALE = get_dpi()/ORIGINAL_DPI 
+def fontscaling(original_width):
+    return round(original_width * SCALE)
 # Window Setup
 root = Tk()
 root.title("nmcfs Compiler")
@@ -67,11 +77,11 @@ logo = ttk.Label(frame1, image=logoimg)
 logo.grid(row=0, column=0, columnspan=3)
 
 # Main UI Elements
-l = ttk.Label(frame1, text="nmcfs Compiler", font=("Helvetica", scale(8), "bold"))
+l = ttk.Label(frame1, text="nmcfs Compiler", font=("Helvetica", fontscaling(scale(8)), "bold"))
 l.grid(row=1, column=0, columnspan=3)
 
 # Input Path
-pathlabel1 = ttk.Label(frame1, text="File to compile:", font=("Helvetica", scale(4), "bold"))
+pathlabel1 = ttk.Label(frame1, text="File to compile:", font=("Helvetica", fontscaling(scale(4)), "bold"))
 pathlabel1.grid(row=2, column=0, sticky="w",pady=scale((30,0)),columnspan=2)
 
 pathinput = ttk.Entry(frame1)
@@ -81,7 +91,7 @@ pathbutton = ttk.Button(frame1, text="Select", command=selectfile)
 pathbutton.grid(row=3, column=2, padx=scale(5), pady=scale(0))
 
 # Output Path
-pathlabel2 = ttk.Label(frame1, text="Output Path:", font=("Helvetica", scale(4), "bold"))
+pathlabel2 = ttk.Label(frame1, text="Output Path:", font=("Helvetica", fontscaling(scale(4)), "bold"))
 pathlabel2.grid(row=4, column=0, sticky="w",columnspan=2,pady=scale((15,0)))
 
 outdirinput = ttk.Entry(frame1)
@@ -96,8 +106,8 @@ licensetext = ttk.Label(
     text="nmcfs \u00a9 MIT License - 2025 Rosafy",
     foreground="blue",
     cursor="hand2",
-    font=("Helvetica", scale(4)),
-    wraplength=scale(70),
+    font=("Helvetica", fontscaling(scale(4))),
+    wraplength=fontscaling(scale(70)),
     justify="center",
 )
 licensetext.grid(row=9, column=0, columnspan=3,pady=0)
