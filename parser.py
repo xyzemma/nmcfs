@@ -7,20 +7,30 @@ grammar = """
     entity: CNAME
     statement: var_declaration | while_loop | var_operation | functioncall | execute_as 
     functioncall: CNAME"(" argument* ")"  -> func_call
-            | CNAME"(" ")" -> func_call
-    argument: CNAME
+    argument: vararg | numarg | stringarg | methodarg | operationarg
+    vararg: CNAME
+    stringarg: ESCAPED_STRING
+    numarg: NUMBER
+    methodarg: functioncall
+    operationarg: var_operation
     var_declaration: type CNAME "=" NUMBER
-    type: CNAME
+    type: int | float | bool | array | string
+    int: "int"
+    float: "float"
+    bool: "bool"
+    array: "array"
+    string: "string"
     while_loop: "while" condition "{" statement* "}"
     var_operation: operand operator operand
     operand: NUMBER | CNAME
     operator: add | subtract | divide | multiply
-    add: "+="
-    subtract: "-="
-    divide: "/="
-    multiply: "*="
+    add: "+=" | "+"
+    subtract: "-=" | "+"
+    divide: "/=" | "/"
+    multiply: "*=" | "*"
     condition: CNAME "<=" NUMBER
 
+    %import common.ESCAPED_STRING
     %import common.CNAME
     %import common.NUMBER
     %import common.WS
@@ -36,7 +46,9 @@ fn main {
     count += 1
     main(count)
     execute as someone {
-        print(something) 
+        print("Hello World")
+        print(count)
+        print(3+3) 
     }
 }
 """
