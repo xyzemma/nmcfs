@@ -63,7 +63,7 @@ funcnames = []
 builtinfuncs = ["print", "summon"]
 varstore = {}
 
-"""def traverse_tree(node):
+def traverse_tree(node):
     global isfunctiondecl, isvardecl, funcfile, current_var
 
     if isinstance(node, Tree):
@@ -122,7 +122,7 @@ varstore = {}
                 varstore[current_var.get("name")] = currentvar.get("value")
                 isvardecl = False  # Done with this variable
                 current_var = None  # Reset for the next variable
-"""
+
 def tokenize(node):
     if isinstance(node, Tree):
         print(f"Tree: {node.data}")
