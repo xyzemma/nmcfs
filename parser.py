@@ -1,7 +1,9 @@
 from lark import Lark, Tree, Token
+import os
 output_dir = "outdir"
 grammar = """
-    start: function+
+    start: namespace+
+    namespace: "namespace" CNAME "{" function+ "}"
     function: "fn" CNAME "{" statement* "}"
     execute_as: "execute as" entity "{" statement* "}"    
     entity: CNAME
@@ -41,40 +43,54 @@ parser = Lark(grammar)
 
 # Source code
 source_code = """
-fn main {
-    int count = 0
-    count += 1
-    main(count)
-    execute as someone {
-        print("Hello World")
-        print(count)
-        print(3+3) 
+namespace main{
+    fn main {
+        int count = 0
+        count += 1
+        main(count)
+        execute as someone {
+            print("Hello World")
+            print(count)
+            print(3+3) 
+        }
     }
 }
 """
-# Traverse the tree
+
 isfunctiondecl = False
 isvardecl = False
 funcfile = None
 isoperation = False
 current_var = None
 operands = None
+isnamespaceinit = False
+namespace = None
 funcnames = []
 builtinfuncs = ["print", "summon"]
 varstore = {}
 
+def dpinit():
+    with open(f"{output_dir}/pack.mcmeta","w+") as packmcmeta:
+        packmcmeta.write("""{
+  "pack": {
+    "description": "Generated with nmcfs",
+    "pack_format": 61
+  }
+}""")
 def traverse_tree(node):
-    global isfunctiondecl, isvardecl, funcfile, current_var
+    global isfunctiondecl, isvardecl, funcfile, current_var, isoperation, isnamespaceinit, namespace, funcfile
 
     if isinstance(node, Tree):
         print(f"Tree: {node.data}")
         if node.data == "start":
-            init()
+            dpinit()
+        if node.data == "namespace":
+            isnamespaceinit = True
         if node.data == "function":
             isfunctiondecl = True
         if node.data == "int_declaration":
             isintdecl = True
-            current_var = {}  # Start a new variable
+            current_var = {}
         if node.data == "intvar_int_add":
             isintvar_int_add = True
         for child in node.children:
@@ -85,13 +101,14 @@ def traverse_tree(node):
 
         if isfunctiondecl:
             funcname = node.value
-            funcfile = f"{output_dir}/{funcname}.mcfunction"
+            os.makedirs(f"{output_dir}/data/{namespace}")
+            funcfile = f"{output_dir}/data/{namespace}/{funcname}.mcfunction"
             # Initialize the function file
             with open(funcfile, "w") as f:
                 f.write(f"# Function {funcname}\n")
             isfunctiondecl = False
 
-        if isintdecl:
+        if isvardecl:
             if node.type == "CNAME":
                 current_var["name"] = node.value
             elif node.type == "NUMBER":
@@ -107,7 +124,7 @@ def traverse_tree(node):
                 varstore[current_var.get("name")] = currentvar.get("value")
                 isvardecl = False  # Done with this variable
                 current_var = None  # Reset for the next variable
-        if isintvar_int_add:
+        if isoperation:
             if node.type == "CNAME":
                 intvar_int_addoperands["var"] = node.value
             elif node.type == "NUMBER":
@@ -122,6 +139,9 @@ def traverse_tree(node):
                 varstore[current_var.get("name")] = currentvar.get("value")
                 isvardecl = False  # Done with this variable
                 current_var = None  # Reset for the next variable
+        if isnamespaceinit:
+            namespace = node.value
+            isnamespaceinit = False
 
 def tokenize(node):
     if isinstance(node, Tree):
@@ -135,4 +155,5 @@ def parsefile(source_code):
     tree = parser.parse(source_code)
     traverse_tree(tree)
 tree = parser.parse(source_code)
-tokenize(tree)
+#tokenize(tree)
+traverse_tree(tree)
