@@ -101,8 +101,8 @@ def traverse_tree(node):
 
         if isfunctiondecl:
             funcname = node.value
-            os.makedirs(f"{output_dir}/data/{namespace}")
-            funcfile = f"{output_dir}/data/{namespace}/{funcname}.mcfunction"
+            os.makedirs(f"{output_dir}/data/{namespace}/function")
+            funcfile = f"{output_dir}/data/{namespace}/function/{funcname}.mcfunction"
             # Initialize the function file
             with open(funcfile, "w") as f:
                 f.write(f"# Function {funcname}\n")
