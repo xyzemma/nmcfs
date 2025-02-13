@@ -7,15 +7,15 @@ grammar = """
     function: "fn" CNAME "{" statement* "}"
     execute_as: "execute as" entity "{" statement* "}"    
     entity: CNAME
-    statement: var_declaration | while_loop | var_operation | functioncall | execute_as 
+    statement: var_declaration | while_loop | operation | functioncall | execute_as 
     functioncall: CNAME"(" argument* ")"  -> func_call
     argument: vararg | numarg | stringarg | methodarg | operationarg
     vararg: CNAME
     stringarg: ESCAPED_STRING
     numarg: NUMBER
     methodarg: functioncall
-    operationarg: var_operation
-    var_declaration: type CNAME "=" NUMBER
+    operationarg: operand operator operand
+    var_declaration: type CNAME "=" NUMBER | type CNAME "=" ESCAPED_STRING | type CNAME "=" "[" argument* "]"
     type: int | float | bool | array | string
     int: "int"
     float: "float"
@@ -23,14 +23,28 @@ grammar = """
     array: "array"
     string: "string"
     while_loop: "while" condition "{" statement* "}"
-    var_operation: operand operator operand
+    operation: base eqoperator operand | base "=" operand operator operand
+    base: CNAME
     operand: NUMBER | CNAME
+    eqoperator: eqadd | eqsubtract | eqdivide | eqmultiply
+    eqadd: "+="
+    eqsubtract: "-="
+    eqdivide: "/="
+    eqmultiply: "*="
     operator: add | subtract | divide | multiply
-    add: "+=" | "+"
-    subtract: "-=" | "+"
-    divide: "/=" | "/"
-    multiply: "*=" | "*"
-    condition: CNAME "<=" NUMBER
+    add: "+"
+    subtract: "-"
+    divide: "/"
+    multiply: "*"
+    condition: CNAME comparator NUMBER
+    comparator: eq | neq | loreq | soreq | l | s | in
+    eq: "="
+    neq: "!="
+    loreq: ">="
+    soreq: "<="
+    l: ">"
+    s: "<" 
+    in: "in"
 
     %import common.ESCAPED_STRING
     %import common.CNAME
@@ -61,8 +75,8 @@ isfunctiondecl = False
 isvardecl = False
 funcfile = None
 isoperation = False
-current_var = None
-operands = None
+current_var = {}
+operands = {}
 isnamespaceinit = False
 namespace = None
 funcnames = []
@@ -91,8 +105,8 @@ def traverse_tree(node):
         if node.data == "int_declaration":
             isintdecl = True
             current_var = {}
-        if node.data == "intvar_int_add":
-            isintvar_int_add = True
+        if node.data == "operation":
+            isoperation = True
         for child in node.children:
             traverse_tree(child)
 
@@ -101,7 +115,8 @@ def traverse_tree(node):
 
         if isfunctiondecl:
             funcname = node.value
-            os.makedirs(f"{output_dir}/data/{namespace}/function")
+            if not os.path.isdir(f"{output_dir}/data/{namespace}/function"):
+                os.makedirs(f"{output_dir}/data/{namespace}/function")
             funcfile = f"{output_dir}/data/{namespace}/function/{funcname}.mcfunction"
             # Initialize the function file
             with open(funcfile, "w") as f:
@@ -126,10 +141,10 @@ def traverse_tree(node):
                 current_var = None  # Reset for the next variable
         if isoperation:
             if node.type == "CNAME":
-                intvar_int_addoperands["var"] = node.value
+                operands["var"] = node.value
             elif node.type == "NUMBER":
                 current_var["int"] = node.value
-            if "var" in intvar_int_addoperands and "int" in intvar_int_addoperands:
+            if "var" in operands and "int" in operands:
                 if funcfile:
                     with open(funcfile, "a") as f:
                         cmdwrite = "function defaults:intvar_int_add {x:" + intvar_int_addoperands.get("var") + ",y:" + intvar_int_addoperands.get("int") + "}"
