@@ -1,6 +1,7 @@
-from parser import *
+#from parser import *
+from termcolor import colored
 import time
-print("nmcfs Compiler")
+print(colored('nmcfs Compiler', 'white', attrs=['bold']))
 time.sleep(0.5)
 print("© 2025 Rosafy - MIT License")
 time.sleep(0.5)
