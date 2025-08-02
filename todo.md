@@ -1,7 +1,0 @@
-- Split Tokenizer and Compiler into different files
-- Make simple `print("hello world")` compile and run
-- implement default commands
-- implement variables 
-- implement custom function calls 
-- implement loops through recursion
-- implement `__load__()` and `__tick__()` functions
