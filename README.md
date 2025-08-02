@@ -4,5 +4,6 @@
 
 # nmcfs
 ## Nova Minecraft Function Script
-Work in progress 
+It is highly unlikely that this project is ever going to be finished. Reason: https://github.com/xyzemma/nmcfs/issues/2
+The only thing that could save it would be Mojang fixing their shit
 
