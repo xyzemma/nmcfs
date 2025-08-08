@@ -1,0 +1,19 @@
+File Tree:
+<packname> {
+   pack.mcmeta
+   data {
+     minecraft
+     *<namespace> {
+         function {
+             *.mcfunction
+         }
+     }
+     loops {
+        *loop<i>.mcfunction
+     }
+     structs {
+        *<structname>.mcfunction
+     }
+   }
+}
+
