@@ -20,3 +20,5 @@ File Tree:
    }
 }
 
+@use <library>;
+@use minecraft/<version> //to import all commands of a version
