@@ -26,10 +26,15 @@ Namespaces:
 Main Functions:
 `fn <name>(*<args>) {...}` //creates mcfunction in namespace
 
+Return:
+`return <value>;` //Returns value; Directly through `/return` if value is int, otherwise storage memory address
+
 Variables:
-`var <name><optional: ": <type>>
-If type is not specified or is not a primitve number; compiles to 
-`data modify storage <namespace>_variables...` 
+`var <name><optional: ": <type>> = <value>`
+If type is not specified or is not a primitve number, but hardcoded value; compiles to 
+`data modify storage <namespace>_variables <varname> set value <value>`
+If value is function return: 
+
 Structs:
 `struct <name> {*<fields>}` //defines struct. macro function that puts data into storage
 
