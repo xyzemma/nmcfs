@@ -30,7 +30,7 @@ Return:
 `return <value>;` //Returns value; Directly through `/return` if value is int, otherwise copy to storage and return memory address
 
 Variables:
-`var <name><optional: ": <type>> = <value>`
+`var <name><optional: ": <type>> = <value>;`
 If type is not specified or is not a primitve number, but hardcoded value: compiles to 
 `data modify storage <namespace>_variables <varname> set value <value>`
 If value is function return int: compiles to `execute store result storage <namespace>_variables <varname> int 1 run function <fn>`
@@ -40,10 +40,18 @@ compiles to
 execute store result storage <namespace>_variables <varname>.memaddr int 1 run function <fn>
 function std:get_val_from_ptr with storage <varname>`
 Contents of std:get_val_from_ptr:
-`$data modify storage $(varname) set from storage nmcfs mem[$(memaddr)]`
+`$data remove storage $(varname)
+$data modify storage $(varname) set from storage nmcfs mem[$(memaddr)]`
+
+Loops:
+Types:
+- for(<var>;<condition>;<statement>)
+- for <iterator> in <var>
+- while(<condition>)
+Compile to recursive functions
 
 Structs:
-`struct <name> {*<fields>}` //defines struct. macro function that puts data into storage
+`struct <name> {*<fields>}` //defines struct. Compiles to macro function that puts data into storage
 
 Maybe impl:
 `impl <structname> {*<methods>}`
