@@ -27,26 +27,33 @@ Main Functions:
 `fn <name>(*<args>) {...}` //creates mcfunction in namespace
 
 Return:
-`return <value>;` //Returns value; Directly through `/return` if value is int, otherwise storage memory address
+`return <value>;` //Returns value; Directly through `/return` if value is int, otherwise copy to storage and return memory address
 
 Variables:
 `var <name><optional: ": <type>> = <value>`
-If type is not specified or is not a primitve number, but hardcoded value; compiles to 
+If type is not specified or is not a primitve number, but hardcoded value: compiles to 
 `data modify storage <namespace>_variables <varname> set value <value>`
-If value is function return: 
+If value is function return int: compiles to `execute store result storage <namespace>_variables <varname> int 1 run function <fn>`
+If value is function return of other type:
+compiles to 
+`data modify <namespace>_variables <varname>.varname set value "<namespace>_variables <varname>"
+execute store result storage <namespace>_variables <varname>.memaddr int 1 run function <fn>
+function std:get_val_from_ptr with storage <varname>`
+Contents of std:get_val_from_ptr:
+`$data modify storage $(varname) set from storage nmcfs mem[$(memaddr)]`
 
 Structs:
 `struct <name> {*<fields>}` //defines struct. macro function that puts data into storage
 
 Maybe impl:
-impl <structname> {*<methods>}
+`impl <structname> {*<methods>}`
 
 Libraries:
-@use <library>;
-@use minecraft/<version> //to import all commands of a version
+`@use <library>;`
+`@use minecraft/<version>;` //to import all commands of a version
 
 stdout:
-/tellraw alias
+`/tellraw alias`
 
 stdin:
 possible approaches:
