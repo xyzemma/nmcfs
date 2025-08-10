@@ -20,5 +20,34 @@ File Tree:
    }
 }
 
+Namespaces: 
+`namespace <name> {...}` //creates namespace
+
+Main Functions:
+`fn <name>(*<args>) {...}` //creates mcfunction in namespace
+
+Variables:
+`var <name><optional: ": <type>>
+If type is not specified or is not a primitve number; compiles to 
+`data modify storage <namespace>_variables...` 
+Structs:
+`struct <name> {*<fields>}` //defines struct. macro function that puts data into storage
+
+Maybe impl:
+impl <structname> {*<methods>}
+
+Libraries:
 @use <library>;
 @use minecraft/<version> //to import all commands of a version
+
+stdout:
+/tellraw alias
+
+stdin:
+possible approaches:
+- Dialogs
+- Books
+- Chat Keyboard
+
+stdlib:
+Misc math functions, e.g sqrt(), abs(), pow()
